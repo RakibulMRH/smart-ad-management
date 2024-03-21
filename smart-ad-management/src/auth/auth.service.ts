@@ -14,10 +14,31 @@ export class AuthService {
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.usersService.findByEmail(email);
     if (user && (await bcrypt.compare(password, user.password))) {
+      //generate session token here and save it in the database and return it to the user
+      const sessionToken = randomBytes(16).toString('hex');
+      await this.usersService.createSessionToken(user.id, sessionToken); 
       const { password, ...result } = user;
       return result;
     }
     return "Email or password is incorrect";
+  }
+
+  async validateSessionToken(sessionToken: string): Promise<any> {
+    const user = await this.usersService.findBySessionToken(sessionToken);
+    if (user) {
+      const { password, ...result } = user;
+      return result;
+    }
+    return "Invalid session token";
+  }
+
+  async logout(sessionToken: string) {
+    const user = await this.usersService.findBySessionToken(sessionToken);
+    if (user) {
+      await this.usersService.removeSessionToken(sessionToken);
+      return { message: 'Logout successful' };
+    }
+    return "Invalid session token";
   }
 
   async register(email: string, password: string, type: string) {
@@ -27,14 +48,16 @@ export class AuthService {
   }
   async forgotPassword(email: string) {
     const user = await this.usersService.findByEmail(email);
-  
-    try {
+
+    try 
+    {
       const resetToken = generateResetToken();
       await sendResetPasswordEmail(email, resetToken);
-      // Update user's reset token in the database
       await this.usersService.updateResetPasswordToken(user.id, resetToken, new Date(Date.now() + 3600000));
       return { message: 'Reset password link has been sent to your email' };
-    } catch (error) {
+    } 
+    catch (error) 
+    {
       return { message: 'Failed to send reset password email', error };
     }
   }
@@ -55,5 +78,4 @@ export class AuthService {
     return { message: 'Password reset successful' };
 }
 
-  // Implement other authentication methods like reset password, etc.
 }

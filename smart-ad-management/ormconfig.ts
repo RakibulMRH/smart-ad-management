@@ -1,4 +1,5 @@
 import { User } from './src/users/entities/user.entity';
+import { UserSession } from './src/users/entities/userSession.entity';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
 const config: PostgresConnectionOptions = {
@@ -8,7 +9,7 @@ const config: PostgresConnectionOptions = {
   port: 5432,
   username: 'postgres',
   password: 'mrh',
-  entities: [User],
+  entities: [User, UserSession],
   synchronize: true,
 };
 

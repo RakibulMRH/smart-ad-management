@@ -35,3 +35,8 @@ export class ResetPasswordDto {
   @IsNotEmpty()
   newPassword: string;
 }
+
+export class SessionTokenDto {
+  @IsNotEmpty()
+  sessionToken: string;
+}

@@ -1,17 +1,16 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+//user.entity.ts
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { UserSession } from './userSession.entity';
 
-@Entity("users")
+@Entity('User')
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @IsNotEmpty()
-  @IsEmail()
-  @Column({ nullable: false })
+  @Column()
   email: string;
 
-  @Column({ nullable: false })
+  @Column()
   password: string;
 
   @Column({ nullable: true })
@@ -20,6 +19,9 @@ export class User {
   @Column({ nullable: true })
   resetPasswordExpires: Date;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   type: string;
+
+  @OneToMany(() => UserSession, userSession => userSession.user)
+  userSessions: UserSession[];
 }
