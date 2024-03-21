@@ -2,7 +2,7 @@
 POST http://localhost:3000/auth/register
 {
   "email": "joseriosn145@gmail.com",
-  "password": "pass",
+  "password": "newPass",
   "type": "client"
 }
 
@@ -10,7 +10,7 @@ POST http://localhost:3000/auth/register
 Make a POST request to http://localhost:3000/auth/login with the following request body:
 {
   "email": "joseriosn145@gmail.com",
-  "password": "pass"
+  "password": "newPass"
 }
 
 3.Forgot Password
@@ -23,4 +23,8 @@ After receiving the reset password email, you'll find a link that contains the r
 {
   "token": "hb42948136d5aa3d984dfee41f7c56ab85f98f388d0d3131e080fc5d4fa5e779f",
   "newPassword": "your_new_password"
+}
+5. Logout POST http://localhost:3000/auth/logout
+{
+	"sessionToken": ""
 }
