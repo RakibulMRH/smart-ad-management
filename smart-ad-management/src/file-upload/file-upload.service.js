@@ -1,7 +1,4 @@
 "use strict";
-import { DashboardModule } from './dashboard/dashboard.module';
-import { ProfileModule } from './profile/profile.module';
-import { FileUploadModule } from './file-upload/file-upload.module';
 var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
     function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
     var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
@@ -41,36 +38,29 @@ var __setFunctionName = (this && this.__setFunctionName) || function (f, name, p
     return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.FileUploadService = void 0;
 var common_1 = require("@nestjs/common");
-var app_controller_1 = require("./app.controller");
-var app_service_1 = require("./app.service");
-var users_module_1 = require("./users/users.module");
-var auth_module_1 = require("./auth/auth.module");
-var typeorm_1 = require("@nestjs/typeorm");
-var ormconfig_1 = require("ormconfig");
-var AppModule = function () {
-    var _classDecorators = [(0, common_1.Module)({
-            imports: [typeorm_1.TypeOrmModule.forRoot(ormconfig_1.default), users_module_1.UsersModule, auth_module_1.AuthModule],
-            controllers: [app_controller_1.AppController],
-            providers: [app_service_1.AppService],
-        })];
+var FileUploadService = function () {
+    var _classDecorators = [(0, common_1.Injectable)()];
     var _classDescriptor;
     var _classExtraInitializers = [];
     var _classThis;
-    var AppModule = _classThis = /** @class */ (function () {
-        function AppModule_1() {
+    var FileUploadService = _classThis = /** @class */ (function () {
+        function FileUploadService_1() {
         }
-        return AppModule_1;
+        FileUploadService_1.prototype.uploadFile = function (file) {
+            return { message: 'File uploaded successfully', filename: file.filename };
+        };
+        return FileUploadService_1;
     }());
-    __setFunctionName(_classThis, "AppModule");
+    __setFunctionName(_classThis, "FileUploadService");
     (function () {
         var _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(null) : void 0;
         __esDecorate(null, _classDescriptor = { value: _classThis }, _classDecorators, { kind: "class", name: _classThis.name, metadata: _metadata }, null, _classExtraInitializers);
-        AppModule = _classThis = _classDescriptor.value;
+        FileUploadService = _classThis = _classDescriptor.value;
         if (_metadata) Object.defineProperty(_classThis, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
         __runInitializers(_classThis, _classExtraInitializers);
     })();
-    return AppModule = _classThis;
+    return FileUploadService = _classThis;
 }();
-exports.AppModule = AppModule;
+exports.FileUploadService = FileUploadService;

@@ -17,7 +17,8 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() authDto: RegisterDto) { 
-    return this.authService.register(authDto.email, authDto.password, authDto.type);
+    //see if the register in accessed after load
+    return this.authService.register(authDto.firstName, authDto.lastName, authDto.email, authDto.password, authDto.type);
   }
 
   @Post('forgot-password')

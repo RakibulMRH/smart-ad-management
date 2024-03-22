@@ -7,6 +7,12 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ nullable: false })
+  firstName: string;
+
+  @Column({ nullable: false })
+  lastName: string;
+
   @Column()
   email: string;
 
@@ -21,6 +27,9 @@ export class User {
 
   @Column({ nullable: false })
   type: string;
+
+  @Column({ nullable: true })
+  profilePicture: string;
 
   @OneToMany(() => UserSession, userSession => userSession.user)
   userSessions: UserSession[];

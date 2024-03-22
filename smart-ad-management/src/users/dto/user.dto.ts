@@ -1,8 +1,16 @@
-import { IsEmail, IsNotEmpty, MinLength, MaxLength, Matches } from 'class-validator';
+import { IsEmail, IsNotEmpty, MinLength, MaxLength, Matches, IsString } from 'class-validator';
 
 export class UserDto {
 
   id: number;
+
+  @IsNotEmpty()
+  @IsString()
+  firstName: string;
+  
+  @IsString()
+  @IsNotEmpty()
+  lastName: string;
 
   @IsNotEmpty()
   @IsEmail()
@@ -21,6 +29,7 @@ export class UserDto {
   @IsNotEmpty()
   @Matches(/^(admin|client|ad_expert)$/, { message: 'Invalid user type' })
   type: string;
-
+  
+  profilePicture: string;
   sessionToken: string;
 }

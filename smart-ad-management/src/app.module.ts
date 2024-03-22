@@ -6,12 +6,11 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm'; 
 import {  ValidationPipe } from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
+import { ProfileModule } from './profile/profile.module';
 import config from 'ormconfig';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(config),UsersModule,AuthModule],
+  imports: [TypeOrmModule.forRoot(config),UsersModule,AuthModule,ProfileModule],
   controllers: [AppController],
-  providers: [
-    {provide: APP_PIPE, useClass: ValidationPipe},AppService],
-})
+  providers: [{provide: APP_PIPE, useClass: ValidationPipe},AppService] })
 export class AppModule {}

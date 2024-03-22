@@ -6,10 +6,19 @@ import { randomBytes } from 'crypto';
 import { BadRequestException } from '@nestjs/common';
 import { sendResetPasswordEmail } from '../utils/email.util'; // Import the sendResetPasswordEmail function from the appropriate module
 import { generateResetToken } from '../utils/email.util'; // Import the generateResetToken function from the appropriate module
+import { UserSession } from 'src/users/entities/userSession.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from '../users/entities/user.entity'; // Import the User class from the appropriate module
+import { ConflictException } from '@nestjs/common'; // Import the ConflictException class from the appropriate module
+
 
 @Injectable()
-export class AuthService {
-  constructor(private readonly usersService: UsersService) {}
+export class AuthService {constructor(
+  private readonly usersService: UsersService,
+  @InjectRepository(UserSession)  
+  private readonly userSessionRepository: Repository<UserSession> // Add this property to the class
+) {}
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.usersService.findByEmail(email);
@@ -23,13 +32,13 @@ export class AuthService {
     return "Email or password is incorrect";
   }
 
-  async validateSessionToken(sessionToken: string): Promise<any> {
-    const user = await this.usersService.findBySessionToken(sessionToken);
-    if (user) {
-      const { password, ...result } = user;
-      return result;
-    }
-    return "Invalid session token";
+  async findBySessionToken(sessionToken: string): Promise<User | undefined> {
+    const userSession = await this.userSessionRepository.findOne({
+      where: { session_token: sessionToken },
+      relations: ['user'],
+    });
+
+    return userSession ? userSession.user : undefined;
   }
 
   async logout(sessionToken: string) {
@@ -41,9 +50,15 @@ export class AuthService {
     return "Invalid session token";
   }
 
-  async register(email: string, password: string, type: string) {
+  async register(firstName: string, lastName: string, email: string, password: string, type: string) {
+    // Check if a user with the same email already exists
+    const existingUser = await this.usersService.findByEmail(email);
+    if (existingUser) {
+      throw new ConflictException('User with this email already exists');
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await this.usersService.create({ email, password: hashedPassword, type});
+    const user = await this.usersService.create({ firstName, lastName, email, password: hashedPassword, type });
     return user;
   }
   async forgotPassword(email: string) {

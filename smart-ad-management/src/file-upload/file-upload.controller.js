@@ -1,7 +1,11 @@
 "use strict";
-import { DashboardModule } from './dashboard/dashboard.module';
-import { ProfileModule } from './profile/profile.module';
-import { FileUploadModule } from './file-upload/file-upload.module';
+var __runInitializers = (this && this.__runInitializers) || function (thisArg, initializers, value) {
+    var useValue = arguments.length > 2;
+    for (var i = 0; i < initializers.length; i++) {
+        value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+    }
+    return useValue ? value : void 0;
+};
 var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
     function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
     var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
@@ -29,48 +33,40 @@ var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, 
     if (target) Object.defineProperty(target, contextIn.name, descriptor);
     done = true;
 };
-var __runInitializers = (this && this.__runInitializers) || function (thisArg, initializers, value) {
-    var useValue = arguments.length > 2;
-    for (var i = 0; i < initializers.length; i++) {
-        value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
-    }
-    return useValue ? value : void 0;
-};
 var __setFunctionName = (this && this.__setFunctionName) || function (f, name, prefix) {
     if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
     return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.FileUploadController = void 0;
 var common_1 = require("@nestjs/common");
-var app_controller_1 = require("./app.controller");
-var app_service_1 = require("./app.service");
-var users_module_1 = require("./users/users.module");
-var auth_module_1 = require("./auth/auth.module");
-var typeorm_1 = require("@nestjs/typeorm");
-var ormconfig_1 = require("ormconfig");
-var AppModule = function () {
-    var _classDecorators = [(0, common_1.Module)({
-            imports: [typeorm_1.TypeOrmModule.forRoot(ormconfig_1.default), users_module_1.UsersModule, auth_module_1.AuthModule],
-            controllers: [app_controller_1.AppController],
-            providers: [app_service_1.AppService],
-        })];
+var platform_express_1 = require("@nestjs/platform-express");
+var FileUploadController = function () {
+    var _classDecorators = [(0, common_1.Controller)('file-upload')];
     var _classDescriptor;
     var _classExtraInitializers = [];
     var _classThis;
-    var AppModule = _classThis = /** @class */ (function () {
-        function AppModule_1() {
+    var _instanceExtraInitializers = [];
+    var _uploadFile_decorators;
+    var FileUploadController = _classThis = /** @class */ (function () {
+        function FileUploadController_1(fileUploadService) {
+            this.fileUploadService = (__runInitializers(this, _instanceExtraInitializers), fileUploadService);
         }
-        return AppModule_1;
+        FileUploadController_1.prototype.uploadFile = function (file) {
+            return this.fileUploadService.uploadFile(file);
+        };
+        return FileUploadController_1;
     }());
-    __setFunctionName(_classThis, "AppModule");
+    __setFunctionName(_classThis, "FileUploadController");
     (function () {
         var _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(null) : void 0;
+        _uploadFile_decorators = [(0, common_1.Post)('upload'), (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file'))];
+        __esDecorate(_classThis, null, _uploadFile_decorators, { kind: "method", name: "uploadFile", static: false, private: false, access: { has: function (obj) { return "uploadFile" in obj; }, get: function (obj) { return obj.uploadFile; } }, metadata: _metadata }, null, _instanceExtraInitializers);
         __esDecorate(null, _classDescriptor = { value: _classThis }, _classDecorators, { kind: "class", name: _classThis.name, metadata: _metadata }, null, _classExtraInitializers);
-        AppModule = _classThis = _classDescriptor.value;
+        FileUploadController = _classThis = _classDescriptor.value;
         if (_metadata) Object.defineProperty(_classThis, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
         __runInitializers(_classThis, _classExtraInitializers);
     })();
-    return AppModule = _classThis;
+    return FileUploadController = _classThis;
 }();
-exports.AppModule = AppModule;
+exports.FileUploadController = FileUploadController;

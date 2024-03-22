@@ -13,6 +13,10 @@ export class UsersService {
     private userSessionRepository: Repository<UserSession>,
   ) {}
   
+  async getProfile(user: User, id: number): Promise<User | undefined> {
+    
+    return this.usersRepository.findOne({ where: { id } });
+  }
 
   findByEmail(email: string): Promise<User> {
     return this.usersRepository.findOne({ where: { email } });
