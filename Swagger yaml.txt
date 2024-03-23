@@ -1,0 +1,612 @@
+openapi: 3.0.0
+info:
+  title: smart ad management
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+components:
+  securitySchemes:
+    inheritAuth:
+      type: http
+      scheme: inherit
+paths:
+  /auth/register:
+    post:
+      tags:
+        - default
+      summary: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                firstName: Rakibul
+                lastName: Hasan
+                email: rakibulmrh4bd@gmail.com
+                password: newPass
+                type: adExpert
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/profile/1:
+    get:
+      tags:
+        - default
+      summary: Authorization for profile access
+      parameters:
+        - name: Cache-Control
+          in: header
+          schema:
+            type: string
+          example: no-cache
+        - name: Postman-Token
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Content-Length
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Host
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: PostmanRuntime/7.32.1
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: '*/*'
+        - name: Accept-Encoding
+          in: header
+          schema:
+            type: string
+          example: gzip, deflate, br
+        - name: Connection
+          in: header
+          schema:
+            type: string
+          example: keep-alive
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer d19d7d85197d579109f271f24c1e3114
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/login:
+    post:
+      tags:
+        - default
+      summary: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                firstName: Rakibul
+                lastName: Hasan
+                email: joseriosn145@gmail.com
+                password: newPass
+                type: client
+      parameters:
+        - name: Cache-Control
+          in: header
+          schema:
+            type: string
+          example: no-cache
+        - name: Postman-Token
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Content-Length
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Host
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: PostmanRuntime/7.32.1
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: '*/*'
+        - name: Accept-Encoding
+          in: header
+          schema:
+            type: string
+          example: gzip, deflate, br
+        - name: Connection
+          in: header
+          schema:
+            type: string
+          example: keep-alive
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/reset-password:
+    post:
+      tags:
+        - default
+      summary: reset-password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                token: 226226be3029a2f5960886ab3ddd66d6
+                newPassword: your_new_password
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/forgot-password:
+    post:
+      tags:
+        - default
+      summary: forgot-password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: joseriosn145@gmail.com
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /profile/update:
+    post:
+      tags:
+        - default
+      summary: Profile Update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                firstName: Rakibul
+                lastName: Hasan
+                email: joseriosn145@gmail.com
+                password: newPass
+                type: client
+      parameters:
+        - name: Cache-Control
+          in: header
+          schema:
+            type: string
+          example: no-cache
+        - name: Postman-Token
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Host
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: PostmanRuntime/7.32.1
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: '*/*'
+        - name: Accept-Encoding
+          in: header
+          schema:
+            type: string
+          example: gzip, deflate, br
+        - name: Connection
+          in: header
+          schema:
+            type: string
+          example: keep-alive
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer d19d7d85197d579109f271f24c1e3114
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /subscriptionPlans:
+    get:
+      tags:
+        - default
+      summary: subscriptionPlans
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - default
+      summary: subscriptionPlans create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Basic Plan
+                description: Basic subscription plan for individuals
+                price: 9.99
+                features:
+                  - Limited ad campaigns
+                  - Basic analytics
+                  - Email support
+      parameters:
+        - name: Cache-Control
+          in: header
+          schema:
+            type: string
+          example: no-cache
+        - name: Postman-Token
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Content-Length
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Host
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: PostmanRuntime/7.32.1
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: '*/*'
+        - name: Accept-Encoding
+          in: header
+          schema:
+            type: string
+          example: gzip, deflate, br
+        - name: Connection
+          in: header
+          schema:
+            type: string
+          example: keep-alive
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer 028d92a8ccdcce1f0104d9fafc831b45
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /subscriptionPlans/2:
+    put:
+      tags:
+        - default
+      summary: subscriptionPlans update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Basic Plan (Updated)
+                description: Basic subscription plan with additional features
+                price: '14.99'
+                features:
+                  - Limited ad campaigns
+                  - Basic analytics
+                  - Email support
+                  - Priority support
+      parameters:
+        - name: Cache-Control
+          in: header
+          schema:
+            type: string
+          example: no-cache
+        - name: Postman-Token
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Content-Length
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Host
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: PostmanRuntime/7.32.1
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: '*/*'
+        - name: Accept-Encoding
+          in: header
+          schema:
+            type: string
+          example: gzip, deflate, br
+        - name: Connection
+          in: header
+          schema:
+            type: string
+          example: keep-alive
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer 028d92a8ccdcce1f0104d9fafc831b45
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /logout:
+    post:
+      tags:
+        - default
+      summary: subscriptionPlans delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                sessionToken: 61759b1dc92785dad5c32a99a0c1cb0f
+      parameters:
+        - name: Cache-Control
+          in: header
+          schema:
+            type: string
+          example: no-cache
+        - name: Postman-Token
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Content-Length
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Host
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: PostmanRuntime/7.32.1
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: '*/*'
+        - name: Accept-Encoding
+          in: header
+          schema:
+            type: string
+          example: gzip, deflate, br
+        - name: Connection
+          in: header
+          schema:
+            type: string
+          example: keep-alive
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: 'Bearer '
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/logout:
+    post:
+      tags:
+        - default
+      summary: logout
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                sessionToken: 61759b1dc92785dad5c32a99a0c1cb0f
+      security:
+        - inheritAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /subscriptions:
+    get:
+      tags:
+        - default
+      summary: see all subscription history
+      security:
+        - inheritAuth: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer d19d7d85197d579109f271f24c1e3114
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /subscriptions/2/3/2:
+    post:
+      tags:
+        - default
+      summary: Subscribe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                paymentMethod: credit_card
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer d19d7d85197d579109f271f24c1e3114
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /subscriptions/2:
+    put:
+      tags:
+        - default
+      summary: subscription history
+      description: "StartFragment\n\nMethod:\_`PUT`\n\nURL:\_`/subscriptions/:id`\n\nExample URL:\_`/subscriptions/1`\n\nBody:  \n{  \n\"paymentStatus\": \"Paid\"  \n}"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                paymentStatus: Paid
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer d19d7d85197d579109f271f24c1e3114
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /subscriptions/3:
+    get:
+      tags:
+        - default
+      summary: subscriptions by tenant id
+      security:
+        - inheritAuth: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer d19d7d85197d579109f271f24c1e3114
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /feedback/2/reply:
+    post:
+      tags:
+        - default
+      summary: Feedback/:feedbackId/reply
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                comment: Thank you!
+                parentReplyId: null
+      security:
+        - inheritAuth: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer d19d7d85197d579109f271f24c1e3114
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}

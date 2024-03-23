@@ -28,7 +28,7 @@ export class RegisterDto {
   password: string;
 
   @IsNotEmpty()
-  @Matches(/^(admin|client|ad_expert)$/, { message: 'Invalid user type' })
+  @Matches(/^(admin|client|adExpert)$/, { message: 'Invalid user type' })
   type: string;
 }
 
