@@ -3,7 +3,7 @@ import { UsersService } from '../../users/users.service';
 import { User } from '../../users/entities/user.entity';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class SubscriptionPlanGuard implements CanActivate {
   constructor(private readonly usersService: UsersService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -27,10 +27,13 @@ export class AuthGuard implements CanActivate {
       return false; // Invalid session token
     }
   
+    if (user.type !== 'admin') {
+      return false; // User is not an admin
+    }
+
     // Attach the user object to the request.user property
     request.user = user;
     return true;
   }
   
 }
-

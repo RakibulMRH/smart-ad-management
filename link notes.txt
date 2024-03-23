@@ -30,3 +30,92 @@ After receiving the reset password email, you'll find a link that contains the r
 }
 
       secret: "@%dajDSsDS056dSD@#%(*&^%", 
+
+
+
+Sure, here are the JSON payloads and the API endpoints you can use to test the subscription and subscription plan modules in Thunderclient:
+
+**Subscription Plan APIs**:
+
+1. **Create Subscription Plan**
+
+Endpoint: `POST /subscriptionPlans`
+
+JSON Payload:
+```json
+{
+  "name": "Basic Plan",
+  "description": "Basic subscription plan for individuals",
+  "price": 9.99,
+  "features": [
+    "Limited ad campaigns",
+    "Basic analytics",
+    "Email support"
+  ]
+}
+```
+
+2. **Update Subscription Plan**
+
+Endpoint: `PUT /subscriptionPlans/:id`
+
+JSON Payload:
+```json
+{
+  "name": "Basic Plan (Updated)",
+  "description": "Basic subscription plan with additional features",
+  "price": 14.99,
+  "features": [
+    "Limited ad campaigns",
+    "Basic analytics",
+    "Email support",
+    "Priority support"
+  ]
+}
+```
+
+3. **Delete Subscription Plan**
+
+Endpoint: `DELETE /subscriptionPlans/:id`
+
+4. **Get All Subscription Plans**
+
+Endpoint: `GET /subscriptionPlans`
+
+**Subscription APIs**:
+
+1. **Create Subscription**
+
+Endpoint: `POST /subscriptions/:tenantId/:planId`
+
+JSON Payload:
+```json
+{
+  "paymentMethod": "credit_card"
+}
+```
+
+2. **Update Subscription Payment Status**
+
+Endpoint: `PUT /subscriptions/:id`
+
+JSON Payload:
+```json
+{
+  "paymentStatus": "paid"
+}
+```
+
+3. **Get Subscription by Tenant**
+
+Endpoint: `GET /subscriptions/:tenantId`
+
+4. **Get All Subscriptions**
+
+Endpoint: `GET /subscriptions`
+
+Replace `:id` in the endpoints with the actual ID of the subscription plan or subscription you want to update or delete. Similarly, replace `:tenantId` and `:planId` with the actual tenant ID and subscription plan ID when creating a new subscription.
+
+Make sure to set the appropriate headers (e.g., `Content-Type: application/json`) in Thunderclient when sending requests with JSON payloads.
+
+You can also test edge cases and error scenarios by providing invalid data or IDs to ensure that the APIs handle them correctly and return appropriate error responses.

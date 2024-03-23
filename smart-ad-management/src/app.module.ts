@@ -7,10 +7,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import {  ValidationPipe } from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
 import { ProfileModule } from './profile/profile.module';
+import { SubscriptionModule } from './subscription/subscription.module';
+import { SubscriptionPlanModule } from './subscription-plan/subscription-plan.module';
+import { FileUploadModule } from './file-upload/file-upload.module';
+
 import config from 'ormconfig';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(config),UsersModule,AuthModule,ProfileModule],
+  imports: [TypeOrmModule.forRoot(config),UsersModule,AuthModule,ProfileModule,SubscriptionModule,SubscriptionPlanModule,FileUploadModule],
   controllers: [AppController],
   providers: [{provide: APP_PIPE, useClass: ValidationPipe},AppService] })
 export class AppModule {}

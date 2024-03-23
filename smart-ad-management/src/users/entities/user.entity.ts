@@ -36,6 +36,6 @@ export class User {
   @OneToMany(() => UserSession, userSession => userSession.user)
   userSessions: UserSession[];
   
-  /*@ManyToOne(() => Tenant, tenant => tenant.users)
-  tenant: Tenant;*/
+  @ManyToOne(() => Tenant, tenant => tenant.users)
+  tenant: Tenant;
 }

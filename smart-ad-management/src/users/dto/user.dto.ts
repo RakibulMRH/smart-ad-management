@@ -31,5 +31,7 @@ export class UserDto {
   type: string;
   
   profilePicture: string;
+
   sessionToken: string;
+
 }
