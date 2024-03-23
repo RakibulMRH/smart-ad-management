@@ -6,16 +6,21 @@ import { CreateSubscriptionDto } from './dto/createSubscription.dto';
 import { UpdateSubscriptionDto } from './dto/updateSubscription.dto';
 import { Subscription } from './entities/subscription.entity';
 import { AuthGuard } from '../auth/guards/auth.guard';
-
+import { UsersService } from 'src/users/users.service';
 
 @Controller('subscriptions')
 export class SubscriptionController {
   constructor(private readonly subscriptionService: SubscriptionService) {}
-
-  @Post()
-  @UseGuards(AuthGuard)
-  async createSubscription(@Body() createSubscriptionDto: CreateSubscriptionDto): Promise<Subscription> {
-    return this.subscriptionService.createSubscription(createSubscriptionDto);
+//GET /subscriptions/TEANANT_ID/PLAN_ID
+  @Post(':userId/:tenantId/:planId')
+ @UseGuards(AuthGuard)
+  async createSubscription(
+    @Param('userId') userId: number,
+    @Param('tenantId') tenantId: number,
+    @Param('planId') planId: number,
+    @Body() createSubscriptionDto: CreateSubscriptionDto,
+  ): Promise<Subscription> {
+    return this.subscriptionService.createSubscription(tenantId, planId, userId, createSubscriptionDto.paymentMethod );
   }
 
   @Put(':id')  

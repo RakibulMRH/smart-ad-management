@@ -3,6 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { UserSession } from './userSession.entity';
 import { ManyToOne } from 'typeorm';
 import { Tenant } from './tenant.enitity';
+import { Subscription } from '../../subscription/entities/subscription.entity'; // import Subscription
 
 @Entity('User')
 export class User {
@@ -38,4 +39,8 @@ export class User {
   
   @ManyToOne(() => Tenant, tenant => tenant.users)
   tenant: Tenant;
+
+  @OneToMany(() => Subscription, subscription => subscription.user) // add this line
+  subscriptions: Subscription[]; // add this line
+
 }
