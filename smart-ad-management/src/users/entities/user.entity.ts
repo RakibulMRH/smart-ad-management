@@ -1,6 +1,8 @@
 //user.entity.ts
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { UserSession } from './userSession.entity';
+import { ManyToOne } from 'typeorm';
+import { Tenant } from './tenant.enitity';
 
 @Entity('User')
 export class User {
@@ -33,4 +35,7 @@ export class User {
 
   @OneToMany(() => UserSession, userSession => userSession.user)
   userSessions: UserSession[];
+  
+  /*@ManyToOne(() => Tenant, tenant => tenant.users)
+  tenant: Tenant;*/
 }

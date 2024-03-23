@@ -1,9 +1,16 @@
+// app.module.ts
 import { Module } from '@nestjs/common';
-import { DashboardService } from './dashboard.service';
-import { DashboardController } from './dashboard.controller';
+// ... other imports
+
+// Remove the DashboardModule import
+// import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
-  providers: [DashboardService],
-  controllers: [DashboardController]
+  imports: [
+    // ... other modules
+    // Remove the DashboardModule from the imports array
+    // DashboardModule,
+  ],
+  // ... other module configurations
 })
-export class DashboardModule {}
+export class AppModule {}

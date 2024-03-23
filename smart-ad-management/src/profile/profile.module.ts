@@ -8,8 +8,8 @@ import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]), // Only include entities here
-    UsersModule, // Import UsersModule here
+    TypeOrmModule.forFeature([User]), 
+    UsersModule, 
     FileUploadModule, 
   ],
   controllers: [ProfileController],
