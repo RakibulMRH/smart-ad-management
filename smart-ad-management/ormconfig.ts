@@ -6,6 +6,8 @@ import { Subscription } from './src/subscription/entities/subscription.entity';
 import { SubscriptionPlan } from './src/subscription-plan/entities/subscriptionPlan.entity';
 import { Feedback } from './src/feedback/entities/feedback.entity';
 import { Reply } from './src/feedback/entities/reply.entity';
+import { Consultation } from './src/consultation/entities/consultation.entity';
+import { ConsultationSlot } from './src/consultation/entities/consultationSlot.entity';
 
 const config: PostgresConnectionOptions = {
   type: 'postgres',
@@ -14,7 +16,7 @@ const config: PostgresConnectionOptions = {
   port: 5432,
   username: 'postgres',
   password: 'mrh',
-  entities: [User, UserSession, Tenant, Subscription, SubscriptionPlan, Feedback, Reply],
+  entities: [User, UserSession, Tenant, Subscription, SubscriptionPlan, Feedback, Reply, Consultation, ConsultationSlot],
   synchronize: true,
 };
 

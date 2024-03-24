@@ -11,11 +11,12 @@ import { SubscriptionModule } from './subscription/subscription.module';
 import { SubscriptionPlanModule } from './subscription-plan/subscription-plan.module';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { FeedbackModule } from './feedback/feedback.module';
+import { ConsultationModule } from './consultation/consultation.module';
 
 import config from 'ormconfig';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(config),UsersModule,AuthModule,ProfileModule,SubscriptionModule,SubscriptionPlanModule,FileUploadModule,FeedbackModule],
+  imports: [TypeOrmModule.forRoot(config),UsersModule,AuthModule,ProfileModule,SubscriptionModule,SubscriptionPlanModule,FileUploadModule,FeedbackModule,ConsultationModule],
   controllers: [AppController],
   providers: [{provide: APP_PIPE, useClass: ValidationPipe},AppService] })
 export class AppModule {}

@@ -6,6 +6,8 @@ import { Tenant } from './tenant.enitity';
 import { Subscription } from '../../subscription/entities/subscription.entity'; // import Subscription
 import { Feedback } from '../../feedback/entities/feedback.entity';
 import { Reply } from '../../feedback/entities/reply.entity';
+import { Consultation } from '../../consultation/entities/consultation.entity';
+import { ConsultationSlot } from '../../consultation/entities/consultationSlot.entity';
 
 @Entity('User')
 export class User {
@@ -53,6 +55,15 @@ export class User {
 
   @OneToMany(() => Reply, reply => reply.user)
   replies: Reply[];
+
+  @OneToMany(() => Consultation, (consultation) => consultation.client)
+  consultationsBooked: Consultation[];
+
+  @OneToMany(() => Consultation, (consultation) => consultation.adExpert)
+  consultationsHosted: Consultation[];
+
+  @OneToMany(() => ConsultationSlot, (slot) => slot.adExpert)
+  consultationSlots: ConsultationSlot[];
 }
 
 export enum UserType {
