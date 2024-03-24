@@ -1,16 +1,20 @@
-// app.module.ts
 import { Module } from '@nestjs/common';
-// ... other imports
-
-// Remove the DashboardModule import
-// import { DashboardModule } from './dashboard/dashboard.module';
+import { DashboardController } from './dashboard.controller';
+import { DashboardService } from './dashboard.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from '../users/entities/user.entity';
+import { Subscription } from '../subscription/entities/subscription.entity';
+import { Feedback } from '../feedback/entities/feedback.entity';
+import { Consultation } from '../consultation/entities/consultation.entity';
+import { ConsultationSlot } from '../consultation/entities/consultationSlot.entity';
+import { AuthModule } from '../auth/auth.module';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [
-    // ... other modules
-    // Remove the DashboardModule from the imports array
-    // DashboardModule,
-  ],
-  // ... other module configurations
+    TypeOrmModule.forFeature([User, Subscription, Feedback, Consultation, ConsultationSlot]),
+    AuthModule,UsersModule ],
+  controllers: [DashboardController],
+  providers: [DashboardService],
 })
-export class AppModule {}
+export class DashboardModule {}

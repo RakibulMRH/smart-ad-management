@@ -103,11 +103,8 @@ paths:
             schema:
               type: object
               example:
-                firstName: Rakibul
-                lastName: Hasan
-                email: joseriosn145@gmail.com
+                email: rakibulmrh4bd@gmail.com
                 password: newPass
-                type: client
       parameters:
         - name: Cache-Control
           in: header
@@ -605,6 +602,468 @@ paths:
           schema:
             type: string
           example: Bearer d19d7d85197d579109f271f24c1e3114
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /consultation/slot:
+    post:
+      tags:
+        - default
+      summary: create consultation/slot
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                adExpertId: 3
+                startTime: '2024-04-01T11:00:00Z'
+                endTime: '2024-04-01T12:00:00Z'
+      parameters:
+        - name: Cache-Control
+          in: header
+          schema:
+            type: string
+          example: no-cache
+        - name: Postman-Token
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Content-Length
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Host
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: PostmanRuntime/7.32.1
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: '*/*'
+        - name: Accept-Encoding
+          in: header
+          schema:
+            type: string
+          example: gzip, deflate, br
+        - name: Connection
+          in: header
+          schema:
+            type: string
+          example: keep-alive
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer 0a842b0da378e53edec39e765c0ebf4b
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    get:
+      tags:
+        - default
+      summary: Get consultation/slot
+      security:
+        - inheritAuth: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer 0a842b0da378e53edec39e765c0ebf4b
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /consultation/book:
+    post:
+      tags:
+        - default
+      summary: Get consultation/book
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                adExpertId: 3
+                slotId: 3
+      parameters:
+        - name: Cache-Control
+          in: header
+          schema:
+            type: string
+          example: no-cache
+        - name: Postman-Token
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: Content-Length
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Host
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: PostmanRuntime/7.32.1
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: '*/*'
+        - name: Accept-Encoding
+          in: header
+          schema:
+            type: string
+          example: gzip, deflate, br
+        - name: Connection
+          in: header
+          schema:
+            type: string
+          example: keep-alive
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: ' Bearer 028d92a8ccdcce1f0104d9fafc831b45'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /consultation/upcoming:
+    get:
+      tags:
+        - default
+      summary: consultation/upcoming?
+      parameters:
+        - name: Cache-Control
+          in: header
+          schema:
+            type: string
+          example: no-cache
+        - name: Postman-Token
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Host
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: PostmanRuntime/7.32.1
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: '*/*'
+        - name: Accept-Encoding
+          in: header
+          schema:
+            type: string
+          example: gzip, deflate, br
+        - name: Connection
+          in: header
+          schema:
+            type: string
+          example: keep-alive
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer 0a842b0da378e53edec39e765c0ebf4b
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /dashboard/user/2:
+    get:
+      tags:
+        - default
+      summary: Dashboard-Get User Details
+      parameters:
+        - name: Cache-Control
+          in: header
+          schema:
+            type: string
+          example: no-cache
+        - name: Postman-Token
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Host
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: PostmanRuntime/7.32.1
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: '*/*'
+        - name: Accept-Encoding
+          in: header
+          schema:
+            type: string
+          example: gzip, deflate, br
+        - name: Connection
+          in: header
+          schema:
+            type: string
+          example: keep-alive
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer 028d92a8ccdcce1f0104d9fafc831b45
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /dashboard/subscription/2:
+    get:
+      tags:
+        - default
+      summary: Dashboard - Get Subscription Details
+      parameters:
+        - name: Cache-Control
+          in: header
+          schema:
+            type: string
+          example: no-cache
+        - name: Postman-Token
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Host
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: PostmanRuntime/7.32.1
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: '*/*'
+        - name: Accept-Encoding
+          in: header
+          schema:
+            type: string
+          example: gzip, deflate, br
+        - name: Connection
+          in: header
+          schema:
+            type: string
+          example: keep-alive
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer 028d92a8ccdcce1f0104d9fafc831b45
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /dashboard/feedback/3:
+    get:
+      tags:
+        - default
+      summary: Dashboard -  Get Feedback for User
+      parameters:
+        - name: Cache-Control
+          in: header
+          schema:
+            type: string
+          example: no-cache
+        - name: Postman-Token
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Host
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: PostmanRuntime/7.32.1
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: '*/*'
+        - name: Accept-Encoding
+          in: header
+          schema:
+            type: string
+          example: gzip, deflate, br
+        - name: Connection
+          in: header
+          schema:
+            type: string
+          example: keep-alive
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer 0a842b0da378e53edec39e765c0ebf4b
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /dashboard/consultations/2:
+    get:
+      tags:
+        - default
+      summary: Dashboard-Get Consultations for User
+      parameters:
+        - name: Cache-Control
+          in: header
+          schema:
+            type: string
+          example: no-cache
+        - name: Postman-Token
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Host
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: PostmanRuntime/7.32.1
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: '*/*'
+        - name: Accept-Encoding
+          in: header
+          schema:
+            type: string
+          example: gzip, deflate, br
+        - name: Connection
+          in: header
+          schema:
+            type: string
+          example: keep-alive
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer 028d92a8ccdcce1f0104d9fafc831b45
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /dashboard/consultation-slots/3:
+    get:
+      tags:
+        - default
+      summary: Dashboard-Get Consultation Slots for User
+      parameters:
+        - name: Cache-Control
+          in: header
+          schema:
+            type: string
+          example: no-cache
+        - name: Postman-Token
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: Host
+          in: header
+          schema:
+            type: string
+          example: <calculated when request is sent>
+        - name: User-Agent
+          in: header
+          schema:
+            type: string
+          example: PostmanRuntime/7.32.1
+        - name: Accept
+          in: header
+          schema:
+            type: string
+          example: '*/*'
+        - name: Accept-Encoding
+          in: header
+          schema:
+            type: string
+          example: gzip, deflate, br
+        - name: Connection
+          in: header
+          schema:
+            type: string
+          example: keep-alive
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer 0a842b0da378e53edec39e765c0ebf4b
       responses:
         '200':
           description: Successful response
