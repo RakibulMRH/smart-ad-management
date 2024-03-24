@@ -74,53 +74,69 @@ var __setFunctionName = (this && this.__setFunctionName) || function (f, name, p
     return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserController = void 0;
+exports.SubscriptionPlanController = void 0;
 var common_1 = require("@nestjs/common");
-var auth_guard_1 = require("../auth/guards/auth.guard");
-var UserController = function () {
-    var _classDecorators = [(0, common_1.Controller)('users'), (0, common_1.UseGuards)(auth_guard_1.AuthGuard)];
+var subscription_plan_guards_1 = require("./guards/subscription-plan.guards");
+var SubscriptionPlanController = function () {
+    var _classDecorators = [(0, common_1.Controller)('subscriptionPlans')];
     var _classDescriptor;
     var _classExtraInitializers = [];
     var _classThis;
     var _instanceExtraInitializers = [];
-    var _getProfile_decorators;
-    var UserController = _classThis = /** @class */ (function () {
-        function UserController_1(userService) {
-            this.userService = (__runInitializers(this, _instanceExtraInitializers), userService);
+    var _getAllPlans_decorators;
+    var _updatePlan_decorators;
+    var _deletePlan_decorators;
+    var _createPlan_decorators;
+    var SubscriptionPlanController = _classThis = /** @class */ (function () {
+        function SubscriptionPlanController_1(planService) {
+            this.planService = (__runInitializers(this, _instanceExtraInitializers), planService);
         }
-        UserController_1.prototype.getProfile = function (req, id) {
+        SubscriptionPlanController_1.prototype.getAllPlans = function () {
             return __awaiter(this, void 0, void 0, function () {
-                var user, profile;
                 return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            user = req.user;
-                            return [4 /*yield*/, this.userService.getProfile(user, id)];
-                        case 1:
-                            profile = _a.sent();
-                            if (profile) {
-                                return [2 /*return*/, profile];
-                            }
-                            else {
-                                return [2 /*return*/, { message: 'Unauthorized' }];
-                            }
-                            return [2 /*return*/];
-                    }
+                    return [2 /*return*/, this.planService.getAllPlans()];
                 });
             });
         };
-        return UserController_1;
+        SubscriptionPlanController_1.prototype.updatePlan = function (id, planData) {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    return [2 /*return*/, this.planService.updatePlan(id, planData)];
+                });
+            });
+        };
+        SubscriptionPlanController_1.prototype.deletePlan = function (id) {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    return [2 /*return*/, this.planService.deletePlan(id)];
+                });
+            });
+        };
+        SubscriptionPlanController_1.prototype.createPlan = function (planData) {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    return [2 /*return*/, this.planService.createPlan(planData)];
+                });
+            });
+        };
+        return SubscriptionPlanController_1;
     }());
-    __setFunctionName(_classThis, "UserController");
+    __setFunctionName(_classThis, "SubscriptionPlanController");
     (function () {
         var _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(null) : void 0;
-        _getProfile_decorators = [(0, common_1.Get)('profile/:id')];
-        __esDecorate(_classThis, null, _getProfile_decorators, { kind: "method", name: "getProfile", static: false, private: false, access: { has: function (obj) { return "getProfile" in obj; }, get: function (obj) { return obj.getProfile; } }, metadata: _metadata }, null, _instanceExtraInitializers);
+        _getAllPlans_decorators = [(0, common_1.Get)()];
+        _updatePlan_decorators = [(0, common_1.Put)(':id'), (0, common_1.UseGuards)(subscription_plan_guards_1.SubscriptionPlanGuard)];
+        _deletePlan_decorators = [(0, common_1.Delete)(':id'), (0, common_1.UseGuards)(subscription_plan_guards_1.SubscriptionPlanGuard)];
+        _createPlan_decorators = [(0, common_1.Post)(), (0, common_1.UseGuards)(subscription_plan_guards_1.SubscriptionPlanGuard)];
+        __esDecorate(_classThis, null, _getAllPlans_decorators, { kind: "method", name: "getAllPlans", static: false, private: false, access: { has: function (obj) { return "getAllPlans" in obj; }, get: function (obj) { return obj.getAllPlans; } }, metadata: _metadata }, null, _instanceExtraInitializers);
+        __esDecorate(_classThis, null, _updatePlan_decorators, { kind: "method", name: "updatePlan", static: false, private: false, access: { has: function (obj) { return "updatePlan" in obj; }, get: function (obj) { return obj.updatePlan; } }, metadata: _metadata }, null, _instanceExtraInitializers);
+        __esDecorate(_classThis, null, _deletePlan_decorators, { kind: "method", name: "deletePlan", static: false, private: false, access: { has: function (obj) { return "deletePlan" in obj; }, get: function (obj) { return obj.deletePlan; } }, metadata: _metadata }, null, _instanceExtraInitializers);
+        __esDecorate(_classThis, null, _createPlan_decorators, { kind: "method", name: "createPlan", static: false, private: false, access: { has: function (obj) { return "createPlan" in obj; }, get: function (obj) { return obj.createPlan; } }, metadata: _metadata }, null, _instanceExtraInitializers);
         __esDecorate(null, _classDescriptor = { value: _classThis }, _classDecorators, { kind: "class", name: _classThis.name, metadata: _metadata }, null, _classExtraInitializers);
-        UserController = _classThis = _classDescriptor.value;
+        SubscriptionPlanController = _classThis = _classDescriptor.value;
         if (_metadata) Object.defineProperty(_classThis, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
         __runInitializers(_classThis, _classExtraInitializers);
     })();
-    return UserController = _classThis;
+    return SubscriptionPlanController = _classThis;
 }();
-exports.UserController = UserController;
+exports.SubscriptionPlanController = SubscriptionPlanController;

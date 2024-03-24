@@ -38,36 +38,40 @@ var __setFunctionName = (this && this.__setFunctionName) || function (f, name, p
     return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UsersModule = void 0;
+exports.SubscriptionPlanModule = void 0;
 var common_1 = require("@nestjs/common");
+var subscription_plan_service_1 = require("./subscription-plan.service");
+var subscription_plan_controller_1 = require("./subscription-plan.controller");
 var typeorm_1 = require("@nestjs/typeorm");
-var user_entity_1 = require("./entities/user.entity");
-var userSession_entity_1 = require("./entities/userSession.entity");
-var users_service_1 = require("./users.service");
-var users_controller_1 = require("./users.controller");
-var UsersModule = function () {
+var subscriptionPlan_entity_1 = require("./entities/subscriptionPlan.entity");
+var subscription_entity_1 = require("../subscription/entities/subscription.entity");
+var tenant_enitity_1 = require("../users/entities/tenant.enitity");
+var users_module_1 = require("../users/users.module");
+var SubscriptionPlanModule = function () {
     var _classDecorators = [(0, common_1.Module)({
-            imports: [typeorm_1.TypeOrmModule.forFeature([user_entity_1.User, userSession_entity_1.UserSession])],
-            providers: [users_service_1.UsersService],
-            exports: [users_service_1.UsersService, typeorm_1.TypeOrmModule],
-            controllers: [users_controller_1.UserController],
+            imports: [
+                typeorm_1.TypeOrmModule.forFeature([subscription_entity_1.Subscription, subscriptionPlan_entity_1.SubscriptionPlan, tenant_enitity_1.Tenant]),
+                users_module_1.UsersModule
+            ],
+            providers: [subscription_plan_service_1.SubscriptionPlanService],
+            controllers: [subscription_plan_controller_1.SubscriptionPlanController],
         })];
     var _classDescriptor;
     var _classExtraInitializers = [];
     var _classThis;
-    var UsersModule = _classThis = /** @class */ (function () {
-        function UsersModule_1() {
+    var SubscriptionPlanModule = _classThis = /** @class */ (function () {
+        function SubscriptionPlanModule_1() {
         }
-        return UsersModule_1;
+        return SubscriptionPlanModule_1;
     }());
-    __setFunctionName(_classThis, "UsersModule");
+    __setFunctionName(_classThis, "SubscriptionPlanModule");
     (function () {
         var _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(null) : void 0;
         __esDecorate(null, _classDescriptor = { value: _classThis }, _classDecorators, { kind: "class", name: _classThis.name, metadata: _metadata }, null, _classExtraInitializers);
-        UsersModule = _classThis = _classDescriptor.value;
+        SubscriptionPlanModule = _classThis = _classDescriptor.value;
         if (_metadata) Object.defineProperty(_classThis, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
         __runInitializers(_classThis, _classExtraInitializers);
     })();
-    return UsersModule = _classThis;
+    return SubscriptionPlanModule = _classThis;
 }();
-exports.UsersModule = UsersModule;
+exports.SubscriptionPlanModule = SubscriptionPlanModule;

@@ -1,11 +1,4 @@
 "use strict";
-var __runInitializers = (this && this.__runInitializers) || function (thisArg, initializers, value) {
-    var useValue = arguments.length > 2;
-    for (var i = 0; i < initializers.length; i++) {
-        value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
-    }
-    return useValue ? value : void 0;
-};
 var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
     function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
     var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
@@ -32,6 +25,13 @@ var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, 
     }
     if (target) Object.defineProperty(target, contextIn.name, descriptor);
     done = true;
+};
+var __runInitializers = (this && this.__runInitializers) || function (thisArg, initializers, value) {
+    var useValue = arguments.length > 2;
+    for (var i = 0; i < initializers.length; i++) {
+        value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+    }
+    return useValue ? value : void 0;
 };
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -74,53 +74,88 @@ var __setFunctionName = (this && this.__setFunctionName) || function (f, name, p
     return Object.defineProperty(f, "name", { configurable: true, value: prefix ? "".concat(prefix, " ", name) : name });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserController = void 0;
+exports.SubscriptionPlanService = void 0;
 var common_1 = require("@nestjs/common");
-var auth_guard_1 = require("../auth/guards/auth.guard");
-var UserController = function () {
-    var _classDecorators = [(0, common_1.Controller)('users'), (0, common_1.UseGuards)(auth_guard_1.AuthGuard)];
+var subscriptionPlan_entity_1 = require("./entities/subscriptionPlan.entity");
+var SubscriptionPlanService = function () {
+    var _classDecorators = [(0, common_1.Injectable)()];
     var _classDescriptor;
     var _classExtraInitializers = [];
     var _classThis;
-    var _instanceExtraInitializers = [];
-    var _getProfile_decorators;
-    var UserController = _classThis = /** @class */ (function () {
-        function UserController_1(userService) {
-            this.userService = (__runInitializers(this, _instanceExtraInitializers), userService);
+    var SubscriptionPlanService = _classThis = /** @class */ (function () {
+        function SubscriptionPlanService_1(planRepository) {
+            this.planRepository = planRepository;
         }
-        UserController_1.prototype.getProfile = function (req, id) {
+        SubscriptionPlanService_1.prototype.createPlan = function (planData) {
             return __awaiter(this, void 0, void 0, function () {
-                var user, profile;
+                var plan;
+                return __generator(this, function (_a) {
+                    plan = new subscriptionPlan_entity_1.SubscriptionPlan();
+                    plan.name = planData.name;
+                    plan.description = planData.description;
+                    plan.price = planData.price;
+                    plan.features = planData.features;
+                    return [2 /*return*/, this.planRepository.save(plan)];
+                });
+            });
+        };
+        SubscriptionPlanService_1.prototype.updatePlan = function (id, planData) {
+            return __awaiter(this, void 0, void 0, function () {
+                var plan;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0:
-                            user = req.user;
-                            return [4 /*yield*/, this.userService.getProfile(user, id)];
+                        case 0: return [4 /*yield*/, this.planRepository.findOne({ where: { id: id } })];
                         case 1:
-                            profile = _a.sent();
-                            if (profile) {
-                                return [2 /*return*/, profile];
+                            plan = _a.sent();
+                            if (!plan) {
+                                throw new Error('Subscription plan not found');
                             }
-                            else {
-                                return [2 /*return*/, { message: 'Unauthorized' }];
+                            if (planData.name) {
+                                plan.name = planData.name;
                             }
+                            if (planData.description) {
+                                plan.description = planData.description;
+                            }
+                            if (planData.price) {
+                                plan.price = parseFloat(planData.price);
+                            }
+                            if (planData.features) {
+                                plan.features = planData.features;
+                            }
+                            return [2 /*return*/, this.planRepository.save(plan)];
+                    }
+                });
+            });
+        };
+        SubscriptionPlanService_1.prototype.deletePlan = function (id) {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, this.planRepository.delete(id)];
+                        case 1:
+                            _a.sent();
                             return [2 /*return*/];
                     }
                 });
             });
         };
-        return UserController_1;
+        SubscriptionPlanService_1.prototype.getAllPlans = function () {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    return [2 /*return*/, this.planRepository.find()];
+                });
+            });
+        };
+        return SubscriptionPlanService_1;
     }());
-    __setFunctionName(_classThis, "UserController");
+    __setFunctionName(_classThis, "SubscriptionPlanService");
     (function () {
         var _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(null) : void 0;
-        _getProfile_decorators = [(0, common_1.Get)('profile/:id')];
-        __esDecorate(_classThis, null, _getProfile_decorators, { kind: "method", name: "getProfile", static: false, private: false, access: { has: function (obj) { return "getProfile" in obj; }, get: function (obj) { return obj.getProfile; } }, metadata: _metadata }, null, _instanceExtraInitializers);
         __esDecorate(null, _classDescriptor = { value: _classThis }, _classDecorators, { kind: "class", name: _classThis.name, metadata: _metadata }, null, _classExtraInitializers);
-        UserController = _classThis = _classDescriptor.value;
+        SubscriptionPlanService = _classThis = _classDescriptor.value;
         if (_metadata) Object.defineProperty(_classThis, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
         __runInitializers(_classThis, _classExtraInitializers);
     })();
-    return UserController = _classThis;
+    return SubscriptionPlanService = _classThis;
 }();
-exports.UserController = UserController;
+exports.SubscriptionPlanService = SubscriptionPlanService;

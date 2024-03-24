@@ -16,7 +16,7 @@ export class SubscriptionPlanService {
     const plan = new SubscriptionPlan();
     plan.name = planData.name;
     plan.description = planData.description;
-    plan.price = planData.price; // convert price to a number
+    plan.price = planData.price;  
     plan.features = planData.features;
 
     return this.planRepository.save(plan);
@@ -38,7 +38,7 @@ export class SubscriptionPlanService {
     }
 
     if (planData.price) {
-      plan.price = parseFloat(planData.price); // convert price to a number
+      plan.price = parseFloat(planData.price);  
     }
 
     if (planData.features) {
@@ -52,8 +52,7 @@ export class SubscriptionPlanService {
     await this.planRepository.delete(id);
   }
 
-  async getAllPlans(): Promise<SubscriptionPlan[]> {
-    // return all subscription plans
+  async getAllPlans(): Promise<SubscriptionPlan[]> { 
     return this.planRepository.find();
   }
 }

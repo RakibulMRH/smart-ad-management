@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { UserSession } from './userSession.entity';
 import { ManyToOne } from 'typeorm';
 import { Tenant } from './tenant.enitity';
-import { Subscription } from '../../subscription/entities/subscription.entity'; // import Subscription
+import { Subscription } from '../../subscription/entities/subscription.entity';  
 import { Feedback } from '../../feedback/entities/feedback.entity';
 import { Reply } from '../../feedback/entities/reply.entity';
 import { Consultation } from '../../consultation/entities/consultation.entity';
@@ -44,7 +44,7 @@ export class User {
   @ManyToOne(() => Tenant, tenant => tenant.users)
   tenant: Tenant;
 
-  @OneToMany(() => Subscription, subscription => subscription.user) // add this line
+  @OneToMany(() => Subscription, subscription => subscription.user)  
   subscriptions: Subscription[]; 
 
   @OneToMany(() => Feedback, feedback => feedback.adExpert)
@@ -69,8 +69,7 @@ export class User {
 export enum UserType {
   Admin = 'admin',
   Client = 'client',
-  AdExpert = 'adExpert',
-  // add more user types as needed
+  AdExpert = 'adExpert', 
 }
 
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';

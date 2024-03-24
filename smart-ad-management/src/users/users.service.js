@@ -82,9 +82,24 @@ var UsersService = function () {
     var _classExtraInitializers = [];
     var _classThis;
     var UsersService = _classThis = /** @class */ (function () {
-        function UsersService_1(usersRepository) {
+        function UsersService_1(usersRepository, userSessionRepository) {
             this.usersRepository = usersRepository;
+            this.userSessionRepository = userSessionRepository;
         }
+        UsersService_1.prototype.getProfile = function (user, id) {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    return [2 /*return*/, this.usersRepository.findOne({ where: { id: id } })];
+                });
+            });
+        };
+        UsersService_1.prototype.findOne = function (id) {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    return [2 /*return*/, this.usersRepository.findOne({ where: { id: id } })];
+                });
+            });
+        };
         UsersService_1.prototype.findByEmail = function (email) {
             return this.usersRepository.findOne({ where: { email: email } });
         };
@@ -92,7 +107,36 @@ var UsersService = function () {
             var newUser = this.usersRepository.create(user);
             return this.usersRepository.save(newUser);
         };
-        // Implement other methods like update, delete, etc.
+        UsersService_1.prototype.createSessionToken = function (userId, sessionToken) {
+            var newUserSession = this.userSessionRepository.create({
+                user: { id: userId },
+                session_token: sessionToken,
+            });
+            return this.userSessionRepository.save(newUserSession);
+        };
+        UsersService_1.prototype.removeSessionToken = function (sessionToken) {
+            return __awaiter(this, void 0, void 0, function () {
+                var userSession;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, this.userSessionRepository.findOne({ where: { session_token: sessionToken } })];
+                        case 1:
+                            userSession = _a.sent();
+                            return [4 /*yield*/, this.userSessionRepository.remove(userSession)];
+                        case 2:
+                            _a.sent();
+                            return [2 /*return*/];
+                    }
+                });
+            });
+        };
+        UsersService_1.prototype.findBySessionToken = function (sessionToken) {
+            return this.usersRepository
+                .createQueryBuilder('user')
+                .innerJoinAndSelect('user.userSessions', 'userSessions')
+                .where('userSessions.session_token = :sessionToken', { sessionToken: sessionToken })
+                .getOne();
+        };
         UsersService_1.prototype.updateResetPasswordToken = function (userId, resetToken, resetPasswordExpires) {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {

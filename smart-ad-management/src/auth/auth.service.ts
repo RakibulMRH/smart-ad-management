@@ -4,31 +4,33 @@ import * as bcrypt from 'bcrypt';
 import { NotFoundException } from '@nestjs/common';
 import { randomBytes } from 'crypto';
 import { BadRequestException } from '@nestjs/common';
-import { sendResetPasswordEmail } from '../utils/email.util'; // Import the sendResetPasswordEmail function from the appropriate module
-import { generateResetToken } from '../utils/email.util'; // Import the generateResetToken function from the appropriate module
+import { sendResetPasswordEmail } from '../utils/email.util';  
+import { generateResetToken } from '../utils/email.util';  
 import { UserSession } from 'src/users/entities/userSession.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from '../users/entities/user.entity'; // Import the User class from the appropriate module
-import { ConflictException } from '@nestjs/common'; // Import the ConflictException class from the appropriate module
+import { User } from '../users/entities/user.entity';  
+import { ConflictException } from '@nestjs/common'; 
 
 
 @Injectable()
 export class AuthService {constructor(
   private readonly usersService: UsersService,
   @InjectRepository(UserSession)  
-  private readonly userSessionRepository: Repository<UserSession> // Add this property to the class
+  private readonly userSessionRepository: Repository<UserSession> 
 ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.usersService.findByEmail(email);
     if (user && (await bcrypt.compare(password, user.password))) {
-      //generate session token here and save it in the database and return it to the user
       const sessionToken = randomBytes(16).toString('hex');
       await this.usersService.createSessionToken(user.id, sessionToken); 
-      const { password, ...result } = user;
-      return result;
-    }
+      const { password,  ...result } = user;
+
+      return JSON.stringify(result) + "Session Token: " + sessionToken;
+      //return result;
+
+      }
     return "Email or password is incorrect";
   }
 
@@ -37,7 +39,7 @@ export class AuthService {constructor(
       where: { session_token: sessionToken },
       relations: ['user'],
     });
-
+    
     return userSession ? userSession.user : undefined;
   }
 

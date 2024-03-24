@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
+import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
+import { LoggerMiddleware } from './middleware/logger.middleware';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
@@ -20,4 +21,10 @@ import config from 'ormconfig';
   imports: [TypeOrmModule.forRoot(config),UsersModule,DashboardModule,AuthModule,ProfileModule,SubscriptionModule,SubscriptionPlanModule,FileUploadModule,FeedbackModule,ConsultationModule],
   controllers: [AppController],
   providers: [{provide: APP_PIPE, useClass: ValidationPipe},AppService] })
-export class AppModule {}
+  export class AppModule {
+    configure(consumer: MiddlewareConsumer) {
+      consumer
+        .apply(LoggerMiddleware)
+        .forRoutes({ path: '*', method: RequestMethod.ALL });
+    }
+  }

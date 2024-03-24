@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SubscriptionPlan } from './entities/subscriptionPlan.entity';
 import { Subscription } from '../subscription/entities/subscription.entity';
 import { Tenant } from '../users/entities/tenant.enitity';
-import { UsersModule } from '../users/users.module'; // import UsersModule
+import { UsersModule } from '../users/users.module';  
 
 @Module({
   imports: [
