@@ -14,11 +14,12 @@ import { FileUploadModule } from './file-upload/file-upload.module';
 import { FeedbackModule } from './feedback/feedback.module';
 import { ConsultationModule } from './consultation/consultation.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { OpenaiModule } from './openai/openai.module';
 
 import config from 'ormconfig';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(config),UsersModule,DashboardModule,AuthModule,ProfileModule,SubscriptionModule,SubscriptionPlanModule,FileUploadModule,FeedbackModule,ConsultationModule],
+  imports: [TypeOrmModule.forRoot(config),OpenaiModule,UsersModule,DashboardModule,AuthModule,ProfileModule,SubscriptionModule,SubscriptionPlanModule,FileUploadModule,FeedbackModule,ConsultationModule],
   controllers: [AppController],
   providers: [{provide: APP_PIPE, useClass: ValidationPipe},AppService] })
   export class AppModule {
