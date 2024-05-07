@@ -5,12 +5,13 @@ import { ProfileService } from './profile.service';
 import { User } from '../users/entities/user.entity';
 import { FileUploadModule } from '../file-upload/file-upload.module';
 import { UsersModule } from 'src/users/users.module';
+import { BlacklistedTokenModule } from 'src/blacklisted-token/blacklisted-token.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]), 
     UsersModule, 
-    FileUploadModule, 
+    FileUploadModule, BlacklistedTokenModule
   ],
   controllers: [ProfileController],
   providers: [ProfileService],

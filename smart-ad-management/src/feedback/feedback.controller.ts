@@ -2,7 +2,7 @@ import { Controller, Post, Body, Get, Param, UseGuards } from '@nestjs/common';
 import { FeedbackService } from './feedback.service';
 import { CreateFeedbackDto } from './dto/createFeedback.dto';
 import { Feedback } from './entities/feedback.entity';
-import { AuthGuard } from '../auth/guards/auth.guard';
+import { JwtAuthGuard } from '../auth/guards/auth.guard';
 import { User, UserDecorator } from '../users/entities/user.entity';
 import { UserType } from '../users/entities/user.entity'; // Assuming you have a UserType enum
 import { Reply } from './entities/reply.entity'; // Import the missing 'Reply' type
@@ -12,7 +12,7 @@ export class FeedbackController {
     constructor(private readonly feedbackService: FeedbackService) {}
 
     @Post(':adExpertId')
-    @UseGuards(AuthGuard)
+    @UseGuards(JwtAuthGuard)
     async createFeedback(
         @Param('adExpertId') adExpertId: number,
         @Body() createFeedbackDto: CreateFeedbackDto,
@@ -37,13 +37,13 @@ export class FeedbackController {
     }
 
     @Get()
-    @UseGuards(AuthGuard)
+    @UseGuards(JwtAuthGuard)
     async getAllFeedback(): Promise<Feedback[]> {
         return this.feedbackService.getAllFeedback();
     }
 
     @Post(':feedbackId/reply')
-    @UseGuards(AuthGuard)
+    @UseGuards(JwtAuthGuard)
     async createReply(
         @Param('feedbackId') feedbackId: number,
         @UserDecorator() user: User,

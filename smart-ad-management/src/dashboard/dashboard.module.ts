@@ -9,11 +9,12 @@ import { Consultation } from '../consultation/entities/consultation.entity';
 import { ConsultationSlot } from '../consultation/entities/consultationSlot.entity';
 import { AuthModule } from '../auth/auth.module';
 import { UsersModule } from '../users/users.module';
+import { BlacklistedTokenModule } from 'src/blacklisted-token/blacklisted-token.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Subscription, Feedback, Consultation, ConsultationSlot]),
-    AuthModule,UsersModule ],
+    AuthModule, UsersModule, BlacklistedTokenModule ],
   controllers: [DashboardController],
   providers: [DashboardService],
 })

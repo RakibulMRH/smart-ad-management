@@ -5,7 +5,7 @@ import { SubscriptionService } from './subscription.service';
 import { CreateSubscriptionDto } from './dto/createSubscription.dto';
 import { UpdateSubscriptionDto } from './dto/updateSubscription.dto';
 import { Subscription } from './entities/subscription.entity';
-import { AuthGuard } from '../auth/guards/auth.guard';
+import { JwtAuthGuard } from '../auth/guards/auth.guard';
 import { UsersService } from 'src/users/users.service';
 
 @Controller('subscriptions')
@@ -13,7 +13,7 @@ export class SubscriptionController {
   constructor(private readonly subscriptionService: SubscriptionService) {}
 //GET /subscriptions/TEANANT_ID/PLAN_ID
   @Post(':userId/:tenantId/:planId')
- @UseGuards(AuthGuard)
+ @UseGuards(JwtAuthGuard)
   async createSubscription(
     @Param('userId') userId: number,
     @Param('tenantId') tenantId: number,
@@ -24,7 +24,7 @@ export class SubscriptionController {
   }
 
   @Put(':id')  
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAuthGuard)
 
   async updateSubscription(
     @Param('id') id: number,
@@ -34,14 +34,14 @@ export class SubscriptionController {
   }
 
   @Get(':tenantId')
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAuthGuard)
 
   async getSubscriptionByTenant(@Param('tenantId') tenantId: number): Promise<Subscription> {
     return this.subscriptionService.getSubscriptionByTenant(tenantId);
   }
 
   @Get()
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAuthGuard)
   async getAllSubscriptions(): Promise<Subscription[]> {
     return this.subscriptionService.getAllSubscriptions();
   }

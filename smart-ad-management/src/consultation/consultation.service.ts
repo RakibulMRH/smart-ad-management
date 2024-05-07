@@ -24,14 +24,23 @@ export class ConsultationService {
     ) {}
 
   async createConsultationSlot(createConsultationDto: CreateConsultationDto, adExpert: User) {
+    console.log('createConsultationDto:', createConsultationDto);
+    console.log('adExpert:', adExpert);
+
     const slot = this.slotRepository.create({
       startTime: createConsultationDto.startTime,
       endTime: createConsultationDto.endTime,
       adExpert,
     });
-    return this.slotRepository.save(slot);
+
+    try {
+      const savedSlot = await this.slotRepository.save(slot);
+      return savedSlot;
+    } catch (error) {
+      console.error('Error saving slot:', error);
+      throw error;
+    }
   }
-  
   async bookConsultation(bookConsultationDto: BookConsultationDto, client: User) {
     const adExpert = await this.usersService.findOne(bookConsultationDto.adExpertId);
     if (!adExpert || adExpert.type !== UserType.AdExpert) {
@@ -94,7 +103,30 @@ export class ConsultationService {
           console.log('Generated SQL Query:', query.getSql()); // Log the generated SQL query
           return query.getMany();
         } else {
-          throw new Error('Invalid user type');
-        }
-      }
+      throw new Error('Invalid user type');
+    }
+  }
+  async cancelConsultation(consultationId: string, user: User) {
+    const consultation = await this.consultationRepository.findOne({
+      where: { id: Number(consultationId) },
+      relations: ['client', 'adExpert', 'slot'],
+    });
+
+    if (!consultation) {
+      throw new NotFoundException('Consultation not found');
+    }
+
+    if (consultation.client.id !== user.id && consultation.adExpert.id !== user.id) {
+      throw new Error('You are not authorized to cancel this consultation');
+    }
+
+    if (consultation.status === 'cancelled') {
+      throw new Error('Consultation is already cancelled');
+    }
+
+    consultation.status = 'cancelled';
+    await this.consultationRepository.save(consultation);
+
+    return { message: 'Consultation cancelled successfully' };
+  }
 }

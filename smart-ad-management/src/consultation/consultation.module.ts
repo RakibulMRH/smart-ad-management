@@ -6,9 +6,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Consultation } from './entities/consultation.entity';
 import { UsersModule } from '../users/users.module';
 import { ConsultationSlot } from './entities/consultationSlot.entity';
+import { BlacklistedTokenModule } from 'src/blacklisted-token/blacklisted-token.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Consultation,ConsultationSlot]), UsersModule],
+  imports: [TypeOrmModule.forFeature([Consultation,ConsultationSlot]), UsersModule, BlacklistedTokenModule],
   providers: [ConsultationService],
   controllers: [ConsultationController],
 })

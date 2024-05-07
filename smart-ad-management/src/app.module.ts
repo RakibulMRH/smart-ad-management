@@ -15,11 +15,12 @@ import { FeedbackModule } from './feedback/feedback.module';
 import { ConsultationModule } from './consultation/consultation.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { OpenaiModule } from './openai/openai.module';
+import { BlacklistedTokenModule } from 'src/blacklisted-token/blacklisted-token.module';
 
-import config from 'ormconfig';
+import config from 'ormconfig'; 
 
 @Module({
-  imports: [TypeOrmModule.forRoot(config),OpenaiModule,UsersModule,DashboardModule,AuthModule,ProfileModule,SubscriptionModule,SubscriptionPlanModule,FileUploadModule,FeedbackModule,ConsultationModule],
+  imports: [TypeOrmModule.forRoot(config),OpenaiModule,UsersModule,DashboardModule,AuthModule,ProfileModule,SubscriptionModule,SubscriptionPlanModule,FileUploadModule,FeedbackModule,ConsultationModule, BlacklistedTokenModule],
   controllers: [AppController],
   providers: [{provide: APP_PIPE, useClass: ValidationPipe},AppService] })
   export class AppModule {

@@ -1,8 +1,6 @@
 import { IsDateString, IsNotEmpty } from 'class-validator';
 
 export class CreateConsultationDto {
-  @IsNotEmpty()
-  adExpertId: number;
 
   @IsNotEmpty()
   @IsDateString()

@@ -4,9 +4,10 @@ import { diskStorage } from 'multer';
 import { FileUploadController } from './file-upload.controller';
 import { FileUploadService } from './file-upload.service';
 import { extname } from 'path';
+import { BlacklistedTokenModule } from 'src/blacklisted-token/blacklisted-token.module';
 
 @Module({
-  imports: [
+  imports: [ BlacklistedTokenModule,
     MulterModule.register({
       storage: diskStorage({
         destination: './uploads',

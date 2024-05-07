@@ -11,10 +11,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../users/entities/user.entity';  
 import { ConflictException } from '@nestjs/common'; 
+import { JwtService } from '@nestjs/jwt';
+import { profile } from 'console';
 
 
 @Injectable()
 export class AuthService {constructor(
+  private readonly jwtService: JwtService,
   private readonly usersService: UsersService,
   @InjectRepository(UserSession)  
   private readonly userSessionRepository: Repository<UserSession> 
@@ -23,15 +26,28 @@ export class AuthService {constructor(
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.usersService.findByEmail(email);
     if (user && (await bcrypt.compare(password, user.password))) {
-      const sessionToken = randomBytes(16).toString('hex');
-      await this.usersService.createSessionToken(user.id, sessionToken); 
+      //const sessionToken = randomBytes(16).toString('hex');
+     // await this.usersService.createSessionToken(user.id, sessionToken); 
       const { password,  ...result } = user;
 
-      return JSON.stringify(result) + "Session Token: " + sessionToken;
+      return result;
       //return result;
-
-      }
+    }
     return "Email or password is incorrect";
+  }
+
+  async login(user: any) {
+    //console.log(user);  
+    const payload = { email: user.email, id: user.id, type: user.type, firstName: user.firstName, lastName: user.lastName, profilePicture: user.profilePicture };//this is the payload that will be signed and sent to the client
+    return {
+      access_token: this.jwtService.sign(payload),
+      user_id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      role: user.type,
+      profilePicture: user.profilePicture,
+    };
   }
 
   async findBySessionToken(sessionToken: string): Promise<User | undefined> {
@@ -93,6 +109,6 @@ export class AuthService {constructor(
     await this.usersService.resetPassword(user.id, hashedPassword);
 
     return { message: 'Password reset successful' };
-}
+  }
 
 }

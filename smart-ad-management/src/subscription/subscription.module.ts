@@ -6,11 +6,13 @@ import { Subscription } from './entities/subscription.entity';
 import { SubscriptionPlan } from '../subscription-plan/entities/subscriptionPlan.entity';
 import { Tenant } from '../users/entities/tenant.enitity';
 import { UsersModule } from '../users/users.module'; // import UsersModule
+import { BlacklistedTokenModule } from 'src/blacklisted-token/blacklisted-token.module';
+
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Subscription, SubscriptionPlan, Tenant]),
-    UsersModule],
+    UsersModule,BlacklistedTokenModule],
   providers: [SubscriptionService],
   controllers: [SubscriptionController],
 })

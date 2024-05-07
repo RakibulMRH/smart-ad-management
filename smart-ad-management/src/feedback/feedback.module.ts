@@ -6,9 +6,11 @@ import { Feedback } from './entities/feedback.entity';
 import { User } from '../users/entities/user.entity';
 import { UsersModule } from '../users/users.module'; 
 import { Reply } from './entities/reply.entity';
+import { BlacklistedTokenModule } from 'src/blacklisted-token/blacklisted-token.module';
+
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Feedback, User,Reply]), UsersModule],
+  imports: [TypeOrmModule.forFeature([Feedback, User,Reply]), UsersModule, BlacklistedTokenModule],
   providers: [FeedbackService],
   controllers: [FeedbackController],
 })

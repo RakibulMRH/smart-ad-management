@@ -1,35 +1,38 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
-import { UsersService } from '../../users/users.service';
-import { User } from '../../users/entities/user.entity';
+import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { Observable } from 'rxjs';
+import { BlacklistedTokenService } from '../../blacklisted-token/blacklisted-token.service';
+import { Inject } from '@nestjs/common';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
-  constructor(private readonly usersService: UsersService) {}
-
-  async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
-    const authorizationHeader = request.headers['authorization'];
-  
-    if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) 
-    {
-      return false; 
-    }
-  
-    const sessionToken = authorizationHeader.split(' ')[1];  
-
-    if (!sessionToken) 
-    {
-      return false;  
-    }
-   
-    const user = await this.usersService.findBySessionToken(sessionToken);
-    if (!user) {
-      return false;  
-    }
-   
-    request.user = user;
-    return true;
+export class JwtAuthGuard extends AuthGuard('jwt') {   
+  constructor(
+    @Inject(BlacklistedTokenService)
+    private readonly tokenBlacklistService: BlacklistedTokenService,
+  ) {
+    super();
   }
-  
+  async canActivate(
+  context: ExecutionContext,
+): Promise<boolean> {
+  const request = context.switchToHttp().getRequest();
+  const token = request.headers.authorization?.split(' ')[1];
+
+  if (await this.tokenBlacklistService.isBlacklisted(token)) { 
+    throw new UnauthorizedException("Token has been blacklisted");
+  }
+
+  console.log('Inside JWT AuthGuard canActivate');
+  return super.canActivate(context) as Promise<boolean>;;
 }
+
+  handleRequest(err, user, info, context) {
+    if (err || !user) {
+      throw err || new UnauthorizedException();
+    } 
+    context.switchToHttp().getRequest().user = user;
+    return user;
+  }
+}
+
 

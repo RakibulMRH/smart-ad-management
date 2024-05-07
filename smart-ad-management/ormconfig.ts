@@ -8,6 +8,7 @@ import { Feedback } from './src/feedback/entities/feedback.entity';
 import { Reply } from './src/feedback/entities/reply.entity';
 import { Consultation } from './src/consultation/entities/consultation.entity';
 import { ConsultationSlot } from './src/consultation/entities/consultationSlot.entity';
+import { BlacklistedToken } from 'src/blacklisted-token/entities/blacklisted-token.entity';
 
 const config: PostgresConnectionOptions = {
   type: 'postgres',
@@ -16,7 +17,7 @@ const config: PostgresConnectionOptions = {
   port: 5432,
   username: 'postgres',
   password: 'mrh',
-  entities: [User, UserSession, Tenant, Subscription, SubscriptionPlan, Feedback, Reply, Consultation, ConsultationSlot],
+  entities: [User, UserSession, Tenant, Subscription, SubscriptionPlan, Feedback, Reply, Consultation, ConsultationSlot, BlacklistedToken],
   synchronize: true,
 };
 
