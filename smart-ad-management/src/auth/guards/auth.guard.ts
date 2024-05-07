@@ -15,8 +15,7 @@ export class AuthGuard implements CanActivate {
       return false; 
     }
   
-    const sessionToken = authorizationHeader.split(' ')[1];
-    //console.log('Received session token:', sessionToken);  
+    const sessionToken = authorizationHeader.split(' ')[1];  
 
     if (!sessionToken) 
     {

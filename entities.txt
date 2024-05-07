@@ -1,0 +1,305 @@
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import { ConsultationSlot } from './consultationSlot.entity';
+
+@Entity('Consultation')
+export class Consultation {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  status: string;
+
+  @Column({ type: 'timestamp', nullable: true })
+  scheduledAt: Date;
+
+  @ManyToOne(() => User, (user) => user.consultationsBooked, { onDelete: 'CASCADE' })
+  @JoinColumn()
+  client: User;
+
+  @ManyToOne(() => User, (user) => user.consultationsHosted, { onDelete: 'CASCADE' })
+  @JoinColumn()
+  adExpert: User;
+
+  @ManyToOne(() => ConsultationSlot, (slot) => slot.consultations, { onDelete: 'CASCADE' })
+  @JoinColumn()
+  slot: ConsultationSlot;
+
+  @Column({ nullable: true })
+  waitingListPosition: number;
+}
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import { Consultation } from './consultation.entity';
+
+@Entity('ConsultationSlot')
+export class ConsultationSlot {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  startTime: Date;
+
+  @Column()
+  endTime: Date;
+
+  @ManyToOne(() => User, (user) => user.consultationSlots, { onDelete: 'CASCADE' })
+  @JoinColumn()
+  adExpert: User;
+
+  @OneToMany(() => Consultation, (consultation) => consultation.slot)
+  consultations: Consultation[];
+}
+
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import { Reply } from './reply.entity';
+@Entity('Feedback')
+export class Feedback {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ nullable: false })
+  rating: number;
+
+  @Column({ nullable: false })
+  comment: string;
+
+  @Column({ nullable: false, default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
+
+  @ManyToOne(() => User, user => user.feedbackReceived)
+  @JoinColumn({ name: 'adExpertId' })
+  adExpert: User;
+
+  @ManyToOne(() => User, user => user.feedbackGiven)
+  @JoinColumn({ name: 'clientId' })
+  client: User;
+
+  @OneToMany(() => Reply, reply => reply.feedback)
+  replies: Reply[];
+}
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Feedback } from './feedback.entity';
+import { User } from '../../users/entities/user.entity';
+import { OneToMany } from 'typeorm';
+
+@Entity('Reply')
+export class Reply {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ nullable: false })
+  comment: string;
+
+  @Column({ nullable: false, default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
+
+  @ManyToOne(() => Feedback, feedback => feedback.replies)
+  @JoinColumn({ name: 'feedbackId' })
+feedback: Feedback;
+
+@ManyToOne(() => User, user => user.replies)
+@JoinColumn({ name: 'userId' })
+user: User;
+
+@ManyToOne(() => Reply, reply => reply.replies, { nullable: true })
+@JoinColumn({ name: 'parentReplyId' })
+parentReply: Reply;
+
+@OneToMany(() => Reply, reply => reply.parentReply)
+replies: Reply[];
+}
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Tenant } from '../../users/entities/tenant.enitity';
+import { SubscriptionPlan } from '../../subscription-plan/entities/subscriptionPlan.entity';
+import { User } from '../../users/entities/user.entity';
+
+@Entity('Subscription')
+export class Subscription {
+    @PrimaryGeneratedColumn()
+    id: number;
+  
+    @Column({ nullable: false })
+    startDate: Date;
+  
+    @Column({ nullable: false })
+    endDate: Date;
+  
+    @Column({ nullable: false })
+    paymentStatus: string;
+  
+    @Column({ nullable: false })
+    paymentMethod: string;
+  
+    @ManyToOne(() => Tenant, tenant => tenant.subscription)
+    @JoinColumn()
+    tenant: Tenant;
+  
+    @ManyToOne(() => SubscriptionPlan, plan => plan.subscriptions)
+    @JoinColumn()
+    plan: SubscriptionPlan;
+
+    @ManyToOne(() => User, user => user.subscriptions)
+    @JoinColumn({ name: 'user_id' })
+    user: User;
+}
+
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Subscription } from '../../subscription/entities/subscription.entity';
+
+@Entity('SubscriptionPlan')
+export class SubscriptionPlan {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ nullable: false, unique: true })
+  name: string;
+
+  @Column({ nullable: false })
+  description: string;
+
+  @Column({ type: 'decimal', nullable: false })
+  price: number;
+
+  @Column({ nullable: false, type: 'simple-array' })
+  features: string[];
+
+  @OneToMany(() => Subscription, subscription => subscription.plan)
+  subscriptions: Subscription[];
+}
+
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { User } from './user.entity';
+
+@Entity('UserSession')
+export class UserSession {
+  @PrimaryGeneratedColumn()
+  session_id: number;
+
+  @Column()
+  session_token: string;
+
+  @Column({ default: () => 'CURRENT_TIMESTAMP' })
+  created_at: Date;
+
+  @Column({ nullable: true })
+  expires_at: Date;
+
+  @ManyToOne(() => User, user => user.userSessions, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+}
+
+//user.entity.ts
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { UserSession } from './userSession.entity';
+import { ManyToOne } from 'typeorm';
+import { Tenant } from './tenant.enitity';
+import { Subscription } from '../../subscription/entities/subscription.entity'; // import Subscription
+import { Feedback } from '../../feedback/entities/feedback.entity';
+import { Reply } from '../../feedback/entities/reply.entity';
+import { Consultation } from '../../consultation/entities/consultation.entity';
+import { ConsultationSlot } from '../../consultation/entities/consultationSlot.entity';
+
+@Entity('User')
+export class User {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ nullable: false })
+  firstName: string;
+
+  @Column({ nullable: false })
+  lastName: string;
+
+  @Column()
+  email: string;
+
+  @Column()
+  password: string;
+
+  @Column({ nullable: true })
+  resetPasswordToken: string;
+
+  @Column({ nullable: true })
+  resetPasswordExpires: Date;
+
+  @Column({ nullable: false })
+  type: string;
+
+  @Column({ nullable: true })
+  profilePicture: string;
+
+  @OneToMany(() => UserSession, userSession => userSession.user)
+  userSessions: UserSession[];
+  
+  @ManyToOne(() => Tenant, tenant => tenant.users)
+  tenant: Tenant;
+
+  @OneToMany(() => Subscription, subscription => subscription.user) // add this line
+  subscriptions: Subscription[]; 
+
+  @OneToMany(() => Feedback, feedback => feedback.adExpert)
+  feedbackReceived: Feedback[];
+
+  @OneToMany(() => Feedback, feedback => feedback.client)
+  feedbackGiven: Feedback[];
+
+  @OneToMany(() => Reply, reply => reply.user)
+  replies: Reply[];
+
+  @OneToMany(() => Consultation, (consultation) => consultation.client)
+  consultationsBooked: Consultation[];
+
+  @OneToMany(() => Consultation, (consultation) => consultation.adExpert)
+  consultationsHosted: Consultation[];
+
+  @OneToMany(() => ConsultationSlot, (slot) => slot.adExpert)
+  consultationSlots: ConsultationSlot[];
+}
+
+export enum UserType {
+  Admin = 'admin',
+  Client = 'client',
+  AdExpert = 'adExpert',
+  // add more user types as needed
+}
+
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+
+export const UserDecorator = createParamDecorator(
+  (data: unknown, ctx: ExecutionContext) => {
+    const request = ctx.switchToHttp().getRequest();
+    return request.user;
+  },
+);
+
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { User } from './user.entity';
+import { OneToOne } from 'typeorm';
+import { Subscription } from '../../subscription/entities/subscription.entity';
+
+@Entity('Tenant')
+export class Tenant {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ nullable: false, unique: true })
+  name: string;
+
+  @Column({ nullable: false, unique: true })
+  domain: string;
+
+  @Column({ nullable: false })
+  subscriptionPlan: string;
+
+  @Column({ nullable: true })
+  paymentDetails: string;
+
+  @OneToMany(() => User, user => user.tenant)
+  users: User[];
+
+  @OneToOne(() => Subscription, subscription => subscription.tenant)
+  subscription: Subscription;
+}
